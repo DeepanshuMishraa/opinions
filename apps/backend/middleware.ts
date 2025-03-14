@@ -1,10 +1,18 @@
 import type { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken"
 
-export const userMiddleware = async (req: Request, res: Response, next: NextFunction) => {
+declare global {
+  namespace Express {
+    interface Request {
+      email: string;
+    }
+  }
+}
+
+export const userMiddleware = (req: Request, res: Response, next: NextFunction) => {
   const auth = req.headers.authorization;
   const token = auth?.split(" ")[1];
-  
+
   if (!token) {
     return res.status(401).json({
       message: "Unauthorized: No token provided"
@@ -16,7 +24,7 @@ export const userMiddleware = async (req: Request, res: Response, next: NextFunc
     req.email = decoded.email;
     next();
   } catch (error) {
-    res.status(401).json({
+    return res.status(401).json({
       message: "Unauthorized"
     });
   }
