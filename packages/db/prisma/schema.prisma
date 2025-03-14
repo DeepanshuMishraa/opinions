@@ -14,8 +14,18 @@ datasource db {
 }
 
 model User {
-  id    String @id @default(cuid())
-  email String @unique
-  token String
-  name  String
+  id       String     @id @default(cuid())
+  email    String     @unique
+  token    String
+  name     String
+  Opinions Opinions[]
+}
+
+model Opinions {
+  id        String @id @default(cuid())
+  opinion   String
+  upvotes   Int
+  downvotes Int
+  userId    String
+  user      User   @relation(fields: [userId], references: [id])
 }
