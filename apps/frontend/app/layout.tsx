@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Open_Sans } from "next/font/google";
 import "./globals.css";
 import Appbar from "@/components/Appbar";
+import { Toaster } from "sonner";
+import QueryProvider from "./query-provider";
 
 const OpenSans = Open_Sans({
   subsets: ["latin"],
@@ -22,8 +24,11 @@ export default function RootLayout({
       <body
         className={`${OpenSans.className} antialiased`}
       >
-        <Appbar />
-        {children}
+        <QueryProvider>
+          <Toaster />
+          <Appbar />
+          {children}
+        </QueryProvider>
       </body>
     </html>
   );
