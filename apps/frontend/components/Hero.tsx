@@ -2,9 +2,10 @@
 
 import { useRouter } from "next/navigation";
 import { Button } from "./ui/button";
+import { useSession } from "@/hooks/use-session";
 
 export default function Hero() {
-  let signedIn = true;
+  const session = useSession();
   const router = useRouter();
   return (
     <div className="flex items-center justify-center h-[30rem]">
@@ -17,7 +18,7 @@ export default function Hero() {
         </p>
         <div className="mt-8">
           <Button onClick={() => {
-            if (signedIn) {
+            if (session.status === "authenticated") {
               router.push('/opinions');
             } else {
               router.push('/login');
